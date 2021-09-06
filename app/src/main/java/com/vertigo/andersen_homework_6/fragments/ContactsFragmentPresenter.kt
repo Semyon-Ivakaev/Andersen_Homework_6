@@ -16,6 +16,9 @@ class ContactsFragmentPresenter {
     private val scopeDef = CoroutineScope(Dispatchers.Default + Job())
     var clicked: ContactsFragmentClickListener? = null
 
+    private var displayList = mutableListOf<Contact>()
+    var showList = mutableListOf<Contact>()
+
     fun initList() {
         if (MainActivity.listContacts.isEmpty()) {
             scopeIO.launch {
@@ -26,6 +29,7 @@ class ContactsFragmentPresenter {
 
     fun setOnRecycler(recyclerView: RecyclerView) {
         var count = 0
+        Log.v("App", "SetOnRecycler")
         CoroutineScope(Dispatchers.IO).launch {
             while (MainActivity.listContacts.isEmpty()) {
                 delay(250)
@@ -34,8 +38,10 @@ class ContactsFragmentPresenter {
             }
 
             if (MainActivity.listContacts.isNotEmpty()) {
+                displayList.addAll(MainActivity.listContacts)
+                showList.addAll(MainActivity.listContacts)
                 CoroutineScope(Dispatchers.Main).launch {
-                    recyclerView.adapter = MainActivity.listContacts.let {
+                    recyclerView.adapter = showList.let {
                         ContactAdapter(it, object : ContactsFragmentClickListener {
                             override fun onContactClickListener(element: Contact) {
                                 clicked?.onContactClickListener(element)
@@ -46,7 +52,21 @@ class ContactsFragmentPresenter {
                 }
             }
         }
+    }
 
+    fun searchNewData(request: String?, recyclerView: RecyclerView) {
+        if (request!!.isNotEmpty()) {
+            showList.clear()
+            MainActivity.listContacts.forEach {
+                if (it.name.lowercase().contains(request) || it.secondName?.lowercase()?.contains(request) == true) {
+                    showList.add(it)
+                }
+            }
+        } else {
+            showList.clear()
+            showList.addAll(MainActivity.listContacts)
+        }
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     fun attachView(view: ContactsFragment) {
