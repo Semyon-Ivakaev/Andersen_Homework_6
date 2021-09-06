@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.vertigo.andersen_homework_6.databinding.ContactsFragmentBinding
 
@@ -30,6 +31,19 @@ class ContactsFragment: Fragment() {
         with(binding) {
             contactsFragmentPresenter?.setOnRecycler(mainRecycler)
             contactsFragmentPresenter?.clicked = clickListener
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
+                override fun onQueryTextSubmit(query: String): Boolean {
+                    searchView.clearFocus()
+
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    contactsFragmentPresenter?.searchNewData(newText, mainRecycler)
+
+                    return false
+                }
+            })
         }
 
         return view
