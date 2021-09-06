@@ -43,7 +43,6 @@ class ContactsFragmentPresenter {
                         })
                     }
                     recyclerView.layoutManager = GridLayoutManager(contactsFragment?.context, 1, RecyclerView.VERTICAL, false)
-                    Log.v("App", MainActivity.listContacts.size.toString())
                 }
             }
         }

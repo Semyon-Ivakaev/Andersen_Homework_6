@@ -27,7 +27,7 @@ class ContactViewHolder(private var view: View, private val clickListener: Conta
     }
 
     private fun loadImage(url: String, imageContact: ImageView) {
-        Glide.with(view.context)
+        Glide.with(itemView)
             .load(url)
             .into(imageContact)
 
