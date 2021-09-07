@@ -2,6 +2,7 @@ package com.vertigo.andersen_homework_6
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import com.vertigo.andersen_homework_6.data.Contact
 import com.vertigo.andersen_homework_6.fragments.ContactsFragment
 import com.vertigo.andersen_homework_6.fragments.ContactsFragmentClickListener
@@ -27,10 +28,18 @@ class MainActivity : AppCompatActivity(), ContactsFragmentClickListener, DetailC
     }
 
     override fun onContactClickListener(element: Contact) {
-        supportFragmentManager.beginTransaction()
-            .addToBackStack(null)
-            .replace(R.id.main_container, DetailContactFragment.newInstance(element))
-            .commit()
+        val viewTablet = findViewById<View>(R.id.second_container)
+        if (viewTablet != null) {
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.second_container, DetailContactFragment.newInstance(element))
+                .commit()
+        } else {
+            supportFragmentManager.beginTransaction()
+                .addToBackStack(null)
+                .replace(R.id.main_container, DetailContactFragment.newInstance(element))
+                .commit()
+        }
     }
 
     override fun onContactHoldListener(element: Contact) {
@@ -46,6 +55,9 @@ class MainActivity : AppCompatActivity(), ContactsFragmentClickListener, DetailC
             supportFragmentManager.popBackStack()
             // Это делаем для того, чтобы спрятать фрагмент при сохранении или закрытии
             supportFragmentManager.beginTransaction().hide(DetailContactFragment()).commit()
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.main_container, ContactsFragment())
+                .commit()
         }
     }
 }
