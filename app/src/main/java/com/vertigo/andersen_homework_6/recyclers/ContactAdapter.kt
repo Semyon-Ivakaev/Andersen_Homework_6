@@ -1,20 +1,16 @@
 package com.vertigo.andersen_homework_6.recyclers
 
+import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.Filter
-import android.widget.Filterable
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.vertigo.andersen_homework_6.R
 import com.vertigo.andersen_homework_6.data.Contact
 import com.vertigo.andersen_homework_6.fragments.ContactsFragmentClickListener
-import java.util.*
 
-class ContactAdapter(private val list: List<Contact>, private val clickListener: ContactsFragmentClickListener):
+class ContactAdapter(private var list: List<Contact>, private val clickListener: ContactsFragmentClickListener?):
     RecyclerView.Adapter<ContactViewHolder>() {
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         return ContactViewHolder(
@@ -28,4 +24,12 @@ class ContactAdapter(private val list: List<Contact>, private val clickListener:
     }
 
     override fun getItemCount() = list.size
+
+    fun refreshList(newList: List<Contact>) {
+        Log.v("App", "Refresh")
+        val diffUtil = ContactDiffUtil(list, newList)
+        val diffResult = DiffUtil.calculateDiff(diffUtil)
+        list = newList
+        diffResult.dispatchUpdatesTo(this)
+    }
 }

@@ -21,6 +21,7 @@ class ContactsFragmentPresenter {
 
     private var displayList = mutableListOf<Contact>()
     var showList = mutableListOf<Contact>()
+    var recycler: RecyclerView? = null
 
     fun initList() {
         if (MainActivity.listContacts.isEmpty()) {
@@ -31,15 +32,15 @@ class ContactsFragmentPresenter {
     }
 
     fun setOnRecycler(recyclerView: RecyclerView) {
+        recycler = recyclerView
+
         var count = 0
-        Log.v("App", "SetOnRecycler")
         CoroutineScope(Dispatchers.IO).launch {
             while (MainActivity.listContacts.isEmpty()) {
                 delay(250)
                 count++
                 if (count > 50) break
             }
-
             if (MainActivity.listContacts.isNotEmpty()) {
                 displayList.addAll(MainActivity.listContacts)
                 showList.addAll(MainActivity.listContacts)
@@ -49,8 +50,13 @@ class ContactsFragmentPresenter {
                             override fun onContactClickListener(element: Contact) {
                                 clicked?.onContactClickListener(element)
                             }
+
+                            override fun onContactHoldListener(element: Contact) {
+                                clicked?.onContactHoldListener(element)
+                            }
                         })
                     }
+
                     recyclerView.layoutManager = GridLayoutManager(contactsFragment?.context, 1, RecyclerView.VERTICAL, false)
                     recyclerView.addItemDecoration(CustomItemDecorator())
                     recyclerView.addItemDecoration(DividerItemDecoration(contactsFragment?.context, DividerItemDecoration.VERTICAL))

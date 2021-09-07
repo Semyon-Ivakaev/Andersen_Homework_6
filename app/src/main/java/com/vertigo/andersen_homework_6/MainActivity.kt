@@ -7,8 +7,10 @@ import com.vertigo.andersen_homework_6.fragments.ContactsFragment
 import com.vertigo.andersen_homework_6.fragments.ContactsFragmentClickListener
 import com.vertigo.andersen_homework_6.fragments.DetailContactClickListener
 import com.vertigo.andersen_homework_6.fragments.DetailContactFragment
+import com.vertigo.andersen_homework_6.utils.ActionDialog
 
 class MainActivity : AppCompatActivity(), ContactsFragmentClickListener, DetailContactClickListener {
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -21,7 +23,7 @@ class MainActivity : AppCompatActivity(), ContactsFragmentClickListener, DetailC
     }
 
     companion object {
-        var listContacts: List<Contact> = mutableListOf()
+        var listContacts: MutableList<Contact> = mutableListOf()
     }
 
     override fun onContactClickListener(element: Contact) {
@@ -29,6 +31,10 @@ class MainActivity : AppCompatActivity(), ContactsFragmentClickListener, DetailC
             .addToBackStack(null)
             .replace(R.id.main_container, DetailContactFragment.newInstance(element))
             .commit()
+    }
+
+    override fun onContactHoldListener(element: Contact) {
+        ActionDialog(element).show(supportFragmentManager, "TAG")
     }
 
     override fun onButtonClicked() {
