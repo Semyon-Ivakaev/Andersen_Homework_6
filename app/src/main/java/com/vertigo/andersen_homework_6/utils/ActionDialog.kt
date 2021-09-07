@@ -4,14 +4,9 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import com.vertigo.andersen_homework_6.MainActivity
-import com.vertigo.andersen_homework_6.R
 import com.vertigo.andersen_homework_6.data.Contact
-import com.vertigo.andersen_homework_6.data.ContactService
-import com.vertigo.andersen_homework_6.fragments.ContactsFragment
 
 class ActionDialog(val element: Contact): DialogFragment() {
 
@@ -22,7 +17,7 @@ class ActionDialog(val element: Contact): DialogFragment() {
             builder.setTitle("Change action:")
                 .setPositiveButton("Delete",
                 DialogInterface.OnClickListener {
-                        dialog, id -> })
+                        dialog, id -> removeElement()})
                 .setNegativeButton("Cancel", 
                 DialogInterface.OnClickListener{ dialog, which ->  })
             builder.create()
@@ -35,8 +30,8 @@ class ActionDialog(val element: Contact): DialogFragment() {
             if (newList[i].id == element.id) {
                 newList.removeAt(i)
                 MainActivity.listContacts = newList
+                // TODO: прикрутить метод refreshList из ContactAdapter
             }
         }
-        Log.v("app", ContactService().getContacts().toString())
     }
 }

@@ -2,13 +2,13 @@ package com.vertigo.andersen_homework_6.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
-import com.vertigo.andersen_homework_6.R
 import com.vertigo.andersen_homework_6.databinding.ContactsFragmentBinding
 
 class ContactsFragment: Fragment() {
@@ -23,7 +23,6 @@ class ContactsFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = ContactsFragmentBinding.inflate(layoutInflater, container, false)
         val view = binding.root
 
@@ -49,7 +48,6 @@ class ContactsFragment: Fragment() {
                 }
             })
         }
-
         return view
     }
 
@@ -63,7 +61,6 @@ class ContactsFragment: Fragment() {
     override fun onDetach() {
         super.onDetach()
         contactsFragmentPresenter?.detachView()
-//        contactsFragmentPresenter = null
         clickListener = null
     }
 }
