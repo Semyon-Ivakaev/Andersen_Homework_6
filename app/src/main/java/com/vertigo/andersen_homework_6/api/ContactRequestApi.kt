@@ -1,5 +1,6 @@
 package com.vertigo.andersen_homework_6.api
 
+import android.util.Log
 import com.vertigo.andersen_homework_6.data.Contact
 import com.vertigo.andersen_homework_6.data.ContactApi
 import kotlinx.coroutines.Dispatchers
@@ -21,8 +22,9 @@ object ContactApiImpl {
 
     private val contactApiService = retrofit.create(ContactRequestApi::class.java)
 
-    suspend fun getContactList(): List<Contact> {
+    suspend fun getContactList(): MutableList<Contact> {
         var count = 0
+        Log.v("app", "getContactList")
         return withContext(Dispatchers.Default) {
             contactApiService.getContactList().map {
                 result ->
@@ -41,7 +43,7 @@ object ContactApiImpl {
                     _name[1],
                     result.photoUrl,
                     result.phone)
-            }
+            } as MutableList<Contact>
         }
     }
 }

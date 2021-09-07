@@ -7,13 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
+import com.vertigo.andersen_homework_6.R
 import com.vertigo.andersen_homework_6.databinding.ContactsFragmentBinding
 
 class ContactsFragment: Fragment() {
-    private var contactsFragmentPresenter: ContactsFragmentPresenter? = null
+    var contactsFragmentPresenter: ContactsFragmentPresenter? = null
 
-    private lateinit var binding: ContactsFragmentBinding
+    lateinit var binding: ContactsFragmentBinding
     private var clickListener: ContactsFragmentClickListener? = null
+    var recycler: RecyclerView? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -29,6 +32,7 @@ class ContactsFragment: Fragment() {
         contactsFragmentPresenter?.initList()
 
         with(binding) {
+            recycler = mainRecycler
             contactsFragmentPresenter?.setOnRecycler(mainRecycler)
             contactsFragmentPresenter?.clicked = clickListener
             searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
@@ -59,7 +63,7 @@ class ContactsFragment: Fragment() {
     override fun onDetach() {
         super.onDetach()
         contactsFragmentPresenter?.detachView()
-        contactsFragmentPresenter = null
+//        contactsFragmentPresenter = null
         clickListener = null
     }
 }
