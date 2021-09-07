@@ -58,8 +58,7 @@ class ContactsFragmentPresenter {
                     }
 
                     recyclerView.layoutManager = GridLayoutManager(contactsFragment?.context, 1, RecyclerView.VERTICAL, false)
-                    recyclerView.addItemDecoration(CustomItemDecorator())
-                    recyclerView.addItemDecoration(DividerItemDecoration(contactsFragment?.context, DividerItemDecoration.VERTICAL))
+                    recyclerView.addItemDecoration(CustomItemDecorator(contactsFragment?.context))
                 }
             }
         }
