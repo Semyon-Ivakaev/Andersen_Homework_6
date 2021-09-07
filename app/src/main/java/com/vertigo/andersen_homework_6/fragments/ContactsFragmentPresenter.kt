@@ -1,11 +1,15 @@
 package com.vertigo.andersen_homework_6.fragments
 
+import android.util.Log
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.vertigo.andersen_homework_6.MainActivity
 import com.vertigo.andersen_homework_6.api.ContactApiImpl
 import com.vertigo.andersen_homework_6.data.Contact
 import com.vertigo.andersen_homework_6.recyclers.ContactAdapter
+import com.vertigo.andersen_homework_6.recyclers.CustomItemDecorator
 import kotlinx.coroutines.*
 
 class ContactsFragmentPresenter {
@@ -54,6 +58,8 @@ class ContactsFragmentPresenter {
                     }
 
                     recyclerView.layoutManager = GridLayoutManager(contactsFragment?.context, 1, RecyclerView.VERTICAL, false)
+                    recyclerView.addItemDecoration(CustomItemDecorator())
+                    recyclerView.addItemDecoration(DividerItemDecoration(contactsFragment?.context, DividerItemDecoration.VERTICAL))
                 }
             }
         }
